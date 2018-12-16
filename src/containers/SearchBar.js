@@ -17,16 +17,23 @@ class SearchBar extends Component {
     }
     render() {
         return (
-            <form onSubmit={this.onFormSubmit} className="input-group">
+            <div>
+                <div>
+                    <h2>this is a sample youTube app</h2>
+                </div>
+                <div>
+                  <form onSubmit={this.onFormSubmit} className="input-group">
                 <span>
                     <input
-                        placeholder="search..."
-                        value={this.state.item}
-                        onChange={this.onInputChange}
+                      placeholder="search..."
+                      value={this.state.item}
+                      onChange={this.onInputChange}
                     />
                 </span> &nbsp;
-                <button type="submit" className="btn btn-primary">Search</button>
-            </form>
+                    <button type="submit" className="btn btn-primary">Search</button>
+                  </form>
+                </div>
+            </div>
         )
     }
 }
