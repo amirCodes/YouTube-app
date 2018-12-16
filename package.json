@@ -5,7 +5,8 @@
   "dependencies": {
     "modern-scripts": "2.2.0",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "redux-promise": "^0.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

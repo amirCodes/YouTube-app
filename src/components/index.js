@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SearchBar from '../containers/SearchBar';
 
-export default class App extends Component {
+class index extends Component {
   render() {
     return (
       <div>
