@@ -1,0 +1,223 @@
+import React, { Component } from 'react';
+import {
+  Form, Input, Icon, Button, DatePicker,
+} from 'antd';
+import moment from 'moment';
+import '../styles/coursesSeminarForm.css';
+
+const FormItem = Form.Item;
+const dateFormat = 'YYYY/MM/DD';
+
+let uuid = 0;
+
+class CoursesSeminarForm extends Component {
+  remove = (k) => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 0) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({ keys: keys.filter(key => key !== k) });
+  };
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uuid);
+    uuid += 1;
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({ keys: nextKeys });
+  };
+
+  render() {
+    const { form } = this.props;
+    const { getFieldDecorator, getFieldValue } = form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 20 },
+      },
+      wrapperCol: {
+        xs: { span: 16 },
+        sm: { span: 16 },
+      },
+    };
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formItems = keys.map((k, index) => {
+      return (
+        <div className={`courses-container courses-form-field ${index % 2 === 0 ? 'courses-form-background-color-gray' : 'courses-form-background-color-white'}`}
+
+        >
+          <FormItem
+            {...formItemLayout}
+            label={index === 0 ? '' : ''}
+            required={false}
+            key={k}
+          >
+            {getFieldDecorator(`names[${k}]`, {
+              validateTrigger: ['onChange', 'onBlur'],
+              rules: [{
+                required: true,
+                whitespace: true,
+                message: 'Please input the details or delete these fields.',
+              }],
+            })(
+              <div>
+                <div className="courses-form-field-child">
+                  <FormItem>
+                    <span><b>*</b>Tittle of course/topic </span>
+                    <Input placeholder="Certificate ..." style={{ maxWidth: '300px' }} />
+                  </FormItem>
+                  <FormItem>
+                    <span><b>*</b>Name of institution / Organiser </span>
+                    <Input placeholder="school ..." style={{ maxWidth: '300px' }} />
+                  </FormItem>
+                </div>
+                <div className="courses-form-field-child">
+                  <FormItem>
+                    <span><b>*</b>Date/Year obtained</span>
+                    <br />
+                    <DatePicker defaultValue={moment('2017/01/01', dateFormat)} format={dateFormat} />
+                  </FormItem>
+                  <FormItem>
+                    <span><b>*</b>Duration of course</span>
+                    <Input placeholder="4" type="number" style={{ maxWidth: '200px' }} required />
+                  </FormItem>
+                </div>
+              </div>,
+            )}
+            { keys.length > 0 ? (
+              <Icon
+                className="courses-dynamic-delete-button"
+                type="close-circle"
+                disabled={keys.length === 0}
+                onClick={() => this.remove(k)}
+              />
+            ) : null}
+          </FormItem>
+        </div>
+      );
+    });
+    return (
+      <React.Fragment>
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <h1 className="courses-form-tittle">Courses and Seminars</h1>
+          <div className="courses-form-field  courses-container">
+            <div className="courses-form-field-child">
+              <FormItem>
+                <span><b>*</b>Tittle of course/topic </span>
+                <Input placeholder="MBA ..." style={{ maxWidth: '300px' }} />
+              </FormItem>
+              <FormItem>
+                <span><b>*</b>Name of institution / Organiser </span>
+                <Input placeholder="name ..." style={{ maxWidth: '300px' }} />
+              </FormItem>
+            </div>
+            <div className="courses-form-field-child">
+              <FormItem>
+                <span><b>*</b>Date/Year obtained</span>
+                <br />
+                <DatePicker defaultValue={moment('2017/01/01', dateFormat)} format={dateFormat} />
+              </FormItem>
+              <FormItem>
+                <span><b>*</b>Duration of course</span>
+                <Input placeholder="4" style={{ maxWidth: '200px' }} type="number" required />
+              </FormItem>
+            </div>
+          </div>
+          { formItems}
+          <div className="hr-add-button">
+            <Button icon="plus-circle-o" type="dashed" size="small" onClick={this.add} />
+          </div>
+          <div className="courses-form-field courses-container">
+            <Button type="primary">Back </Button> &nbsp;&nbsp;
+            <Button type="primary"> Next</Button>
+          </div>
+        </Form>
+      </React.Fragment>
+    );
+  }
+}
+
+export default Form.create()(CoursesSeminarForm);
+
+
+
+
+
+
+
+
+
+.courses-container {
+    padding-left: 50px;
+}
+.courses-form-tittle{
+    padding:15px 0px 1px 50px;
+}
+.courses-form-field {
+    display: inline-block;
+}
+.courses-form-field-child {
+    display: inline-block;
+    color: #000;
+}
+.courses-form-field-child span b{
+    color: red;
+}
+
+.courses-form-background-color-gray{
+    background-color: #f8f8f8;
+}
+
+.courses-form-background-color-white {
+    background-color:white;
+}
+
+.courses-dynamic-delete-button {
+    bottom: 75px;
+    position: relative;
+    font-size: 24px;
+    margin: 0 750px;
+    cursor: pointer;
+    color: #999;
+    transition: all .3s;
+}
+.courses-dynamic-delete-button:hover {
+    color: red;
+}
+.courses-dynamic-delete-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.hr-add-button{
+    display: flex !important;
+    flex-basis: 100% !important;
+    align-items: center !important;
+    color:lightblue !important;
+    margin: 8px 0 !important;
+}
+.hr-add-button::before,
+.hr-add-button::after {
+    content: "" !important;
+    flex-grow: 1 !important;
+    background:lightblue !important;
+    height: 2px !important;
+    margin: 0 8px !important;
+}
+
+
+
+
+
+
+
+
