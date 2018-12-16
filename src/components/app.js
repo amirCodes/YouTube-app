@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 // import SearchBar from '../containers/SearchBar';
-//import YTSearch from "youtube-api-search";
 import _ from "lodash";
 import YTSearch from "youtube-api-search";
 import SearchBar from "./search_bar";
