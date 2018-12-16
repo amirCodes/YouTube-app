@@ -5,7 +5,9 @@ class index extends Component {
   render() {
     return (
       <div>
+
         <SearchBar />
+
       </div>
     );
   }
